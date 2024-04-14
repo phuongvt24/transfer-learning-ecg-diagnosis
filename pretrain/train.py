@@ -11,7 +11,7 @@ from resnet50 import ResNet1d50
 from resnet1d18 import ResNet1d18
 from lstm import LSTM, BiLSTM
 from gru import GRU_Classifier
-from transformer import EcgTransformer
+# from transformer import EcgTransformer
 from eval import classify, get_f1
 
 
@@ -116,14 +116,14 @@ def main():
     # model_name = 'resnet1d18'
     # model_instance = ResNet1d18(num_classes=len(train_data.CLASSES))
 
-    model_name = 'lstm'
-    model_instance = LSTM(num_classes=len(train_data.CLASSES),device=device)
+    # model_name = 'lstm'
+    # model_instance = LSTM(num_classes=len(train_data.CLASSES),device=device)
 
     # model_name = 'bilstm'
     # model_instance = BiLSTM(num_classes=len(train_data.CLASSES),device=device)
 
-    # model_name = 'gru'
-    # model_instance = GRU_Classifier(num_classes=len(train_data.CLASSES),device=device)
+    model_name = 'gru'
+    model_instance = GRU_Classifier(num_classes=len(train_data.CLASSES),device=device)
 
     # model_name = 'transformer'
     # model_instance = EcgTransformer(num_classes=len(train_data.CLASSES))

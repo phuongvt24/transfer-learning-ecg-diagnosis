@@ -7,7 +7,7 @@ class LSTM(nn.Module):
 			num_classes, 
 			device, 
 			n_features=12, 
-			seq_len=1000, 
+			seq_len=4096, 
 			hidden_size=100, 
 			dropout=0.3
 		):
@@ -22,7 +22,7 @@ class LSTM(nn.Module):
 							batch_first=True, dropout=dropout)
 
 		self.fc = nn.Linear(in_features=seq_len * self.hidden_size, out_features=self.num_classes)
-
+		
 	def forward(self, X):
 		h0, c0 = self.init_hidden(X)
 
@@ -47,7 +47,7 @@ class BiLSTM(nn.Module):
 			num_classes, 
 			device, 
 			n_features=12, 
-			seq_len=1000, 
+			seq_len=4096, 
 			hidden_size=100, 
 			dropout=0.3
 		):

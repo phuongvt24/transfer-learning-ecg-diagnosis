@@ -5,7 +5,7 @@ import pandas as pd
 import os
 
 class PTBXL(Dataset):
-    CLASSES = ['NORM', 'MI', 'STTC', 'HYP', 'CD']
+    CLASSES = ['1dAVb', 'RBBB', 'LBBB', 'SB', 'ST', 'AF', 'normal_ecg']
     
     def __init__(self, purpose, data_dir='./data'):
         assert purpose in ['train', 'val', 'test']
@@ -30,5 +30,6 @@ class PTBXL(Dataset):
         signals = self.x[self.x.ecg_id == ecg_id].drop(columns=['ecg_id']).values
         
         signals = torch.tensor(signals)
+        # print(signals,labels)
         
         return (signals, labels)

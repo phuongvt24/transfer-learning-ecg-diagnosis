@@ -7,7 +7,7 @@ class GRU_Classifier(nn.Module):
 			num_classes, 
 			device, 
 			n_features=12, 
-			seq_len=1000, 
+			seq_len=4096, 
 			hidden_size=100, 
 			dropout=0.3
 ):
