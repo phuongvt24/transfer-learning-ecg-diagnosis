@@ -18,7 +18,7 @@ from eval import classify, get_f1
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
 
-    batch_size = 128
+    batch_size = 256
 
     model = model_instance.to(device=device, dtype=torch.double)
     print(model)
@@ -64,7 +64,7 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
 
         if val_data:
             # Eval on val set
-            y_trues_val, y_preds_val= classify(model, device, val_data)
+            y_trues_val, y_preds_val= classify(model, device, val_data, epoch)
             f1_val = get_f1(y_trues_val, y_preds_val)
             print("F1 val:", f1_val.round(4))
             f.write(f"F1 val: {f1_val.round(4)}\n")

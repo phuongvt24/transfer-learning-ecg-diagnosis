@@ -2,13 +2,16 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 import numpy as np
+import pandas as pd
 from sklearn.metrics import precision_recall_curve, auc, f1_score
 
-def classify(model, device, dataset, batch_size=128):
+def classify(model, device, dataset,epoch, batch_size=128):
     data_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size)
-    
+
     y_trues = np.empty((0, len(dataset.CLASSES)))
     y_preds = np.empty((0, len(dataset.CLASSES)))
+
+    y_scores_list = []
 
     model.eval()
     with torch.no_grad():
@@ -21,6 +24,15 @@ def classify(model, device, dataset, batch_size=128):
 
             y_preds = np.concatenate((y_preds, y_pred), axis=0)
             y_trues = np.concatenate((y_trues, y), axis=0)
+
+            y_scores = torch.sigmoid(y_hat).cpu().numpy()
+            y_scores_list.append(y_scores)
+    y_scores_all = np.concatenate(y_scores_list, axis=0)
+
+    df = pd.DataFrame(y_scores_all, columns=dataset.CLASSES)
+
+    # Lưu DataFrame vào tập tin CSV
+    df.to_csv(f'./ptbxl/checkpoints/{epoch}_y_scores.csv', index=False, header=False)
 
     return y_trues, y_preds
 
