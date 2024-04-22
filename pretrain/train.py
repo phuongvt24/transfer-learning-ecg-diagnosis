@@ -18,7 +18,7 @@ from eval import classify, get_f1
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
 
-    batch_size = 256
+    batch_size = 8192
 
     model = model_instance.to(device=device, dtype=torch.double)
     print(model)
@@ -38,8 +38,12 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
         train_data, batch_size=batch_size, shuffle=True
     )
 
+    # Tính toán số lượng vòng lặp tối đa
+    total_batches = len(train_loader)
+    print("Tổng số lượng batches:", total_batches)
+
     best_f1 = 0.0
-    num_epochs = 50
+    num_epochs = 10
     for epoch in range(1, num_epochs + 1):
         model.train()
         for batch_idx, (data, labels) in enumerate(train_loader):
@@ -52,10 +56,10 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
             loss.backward()
             optimizer.step()
 
-            if batch_idx % 20 == 0:
-                log = "Epoch {} Iteration {}: Loss = {}".format(epoch, batch_idx, loss)
-                print(log)
-                f.write(log+'\n')
+            # if batch_idx % 2 == 0:
+            log = "Epoch {} Iteration {}: Loss = {}".format(epoch, batch_idx, loss)
+            print(log)
+            f.write(log+'\n')
 
             # Free up GPU memory
             if device == torch.device('cuda'):
@@ -106,6 +110,14 @@ def main():
     val_data = PTBXL('test', f'./{data_name}/data/')
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Device in use:", device)
+    if device.type == 'cuda':
+        print("GPU Name:", torch.cuda.get_device_name(0))
+    else:
+        print("No GPU available, using CPU.")
+
 
     # model_name = 'resnet1d101'
     # model_instance = ResNet1d101(num_classes=len(train_data.CLASSES))
