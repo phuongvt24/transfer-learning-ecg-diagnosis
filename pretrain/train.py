@@ -18,7 +18,7 @@ from eval import classify, get_f1
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
 
-    batch_size = 1024
+    batch_size = 768
 
     model = model_instance.to(device=device, dtype=torch.double)
     print(model)
@@ -56,10 +56,11 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
             loss.backward()
             optimizer.step()
 
-            # if batch_idx % 2 == 0:
-            log = "Epoch {} Iteration {}: Loss = {}".format(epoch, batch_idx, loss)
-            print(log)
-            f.write(log+'\n')
+            if batch_idx % 2 == 0:
+                current_time  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                log = f"Time: {current_time}, Epoch: {epoch}, Iteration: {batch_idx}, Loss: {loss}"
+                print(log)
+                f.write(log+'\n')
 
             # Free up GPU memory
             if device == torch.device('cuda'):
@@ -125,8 +126,8 @@ def main():
     # model_name = 'resnet1d50'
     # model_instance = ResNet1d50(num_classes=len(train_data.CLASSES))
 
-    # model_name = 'resnet1d18'
-    # model_instance = ResNet1d18(num_classes=len(train_data.CLASSES))
+    model_name = 'resnet1d18'
+    model_instance = ResNet1d18(num_classes=len(train_data.CLASSES))
 
     # model_name = 'lstm'
     # model_instance = LSTM(num_classes=len(train_data.CLASSES),device=device)
@@ -134,8 +135,8 @@ def main():
     # model_name = 'bilstm'
     # model_instance = BiLSTM(num_classes=len(train_data.CLASSES),device=device)
 
-    model_name = 'gru'
-    model_instance = GRU_Classifier(num_classes=len(train_data.CLASSES),device=device)
+    # model_name = 'gru'
+    # model_instance = GRU_Classifier(num_classes=len(train_data.CLASSES),device=device)
 
     # model_name = 'transformer'
     # model_instance = EcgTransformer(num_classes=len(train_data.CLASSES))
