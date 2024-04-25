@@ -105,6 +105,9 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
     f.close()
 
 def main():
+    gpu_id = 0  # Adjust this ID to your desired GPU
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id) 
+    
     data_name = 'ptbxl'
     data_dir = f'./{data_name}'
     train_data = PTBXL('train', f'./{data_name}/data/')
