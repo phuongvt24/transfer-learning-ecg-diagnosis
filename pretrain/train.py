@@ -18,7 +18,7 @@ from eval import classify, get_f1
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
 
-    batch_size = 768
+    batch_size = 256
 
     model = model_instance.to(device=device, dtype=torch.double)
     print(model)
