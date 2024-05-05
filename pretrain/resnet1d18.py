@@ -74,7 +74,7 @@ class ResNet1d18(nn.Module):
         block: BasicBlock = BasicBlock,
         embedding_size = 512,
         layers: List[int] = [2, 2, 2, 2],
-        num_classes: int = 5,
+        num_classes: int = 7,
         zero_init_residual: bool = False,
         groups: int = 1,
         width_per_group: int = 64,
