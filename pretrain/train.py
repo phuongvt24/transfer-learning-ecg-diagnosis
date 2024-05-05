@@ -13,7 +13,7 @@ from lstm import LSTM, BiLSTM
 from gru import GRU_Classifier
 # from transformer import EcgTransformer
 from eval import classify, get_f1
-from ecg_combined_model import ECGCombinedModel
+from ECGCombinedModel import ECGCombinedModel
 
 
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
@@ -147,7 +147,6 @@ def main():
 
     model_name = 'ECGCombinedModel'
     model_instance = ECGCombinedModel(num_classes=len(train_data.CLASSES)).to(device)
-    model = 
 
     train(model_name, data_dir, model_instance, device, train_data, val_data)
 
