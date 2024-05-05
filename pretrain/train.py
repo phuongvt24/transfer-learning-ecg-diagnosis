@@ -13,6 +13,7 @@ from lstm import LSTM, BiLSTM
 from gru import GRU_Classifier
 # from transformer import EcgTransformer
 from eval import classify, get_f1
+from ecg_combined_model import ECGCombinedModel
 
 
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
@@ -129,8 +130,8 @@ def main():
     # model_name = 'resnet1d50'
     # model_instance = ResNet1d50(num_classes=len(train_data.CLASSES))
 
-    model_name = 'resnet1d18'
-    model_instance = ResNet1d18(num_classes=len(train_data.CLASSES))
+    # model_name = 'resnet1d18'
+    # model_instance = ResNet1d18(num_classes=len(train_data.CLASSES))
 
     # model_name = 'lstm'
     # model_instance = LSTM(num_classes=len(train_data.CLASSES),device=device)
@@ -143,6 +144,10 @@ def main():
 
     # model_name = 'transformer'
     # model_instance = EcgTransformer(num_classes=len(train_data.CLASSES))
+
+    model_name = 'ECGCombinedModel'
+    model_instance = ECGCombinedModel(num_classes=len(train_data.CLASSES)).to(device)
+    model = 
 
     train(model_name, data_dir, model_instance, device, train_data, val_data)
 
