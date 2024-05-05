@@ -21,8 +21,11 @@ class ECGCombinedModel(nn.Module):
             nn.ReLU(),
             nn.MaxPool1d(2)
         )
-        self.lstm = nn.LSTM(256, 256, batch_first=True, num_layers=3, dropout=0.2)
-        self.fc1 = nn.Linear(256, 32)
+        # Define individual LSTM layers
+        self.lstm1 = nn.LSTM(256, 256, batch_first=True)
+        self.lstm2 = nn.LSTM(256, 128, batch_first=True)
+        self.lstm3 = nn.LSTM(128, 64, batch_first=True)
+        self.fc1 = nn.Linear(64, 32)  # Adjusted for output of last LSTM layer
         self.fc2 = nn.Linear(32, num_classes)
         self.sigmoid = nn.Sigmoid()
 
@@ -32,8 +35,10 @@ class ECGCombinedModel(nn.Module):
         x = self.conv2(x)
         x = self.conv3(x)
         x = x.permute(0, 2, 1)
-        x, _ = self.lstm(x)
-        x = x[:, -1, :]
+        x, _ = self.lstm1(x)
+        x, _ = self.lstm2(x)
+        x, _ = self.lstm3(x)
+        x = x[:, -1, :]  # Take the output of the last time step
         x = self.fc1(x)
         x = nn.ReLU()(x)
         x = self.fc2(x)
