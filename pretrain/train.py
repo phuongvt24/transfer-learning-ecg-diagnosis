@@ -14,6 +14,7 @@ from gru import GRU_Classifier
 # from transformer import EcgTransformer
 from eval import classify, get_f1
 from ECGCombinedModel import ECGCombinedModel
+from DenseNet import DenseNet
 
 
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
@@ -51,6 +52,8 @@ def train(model_name, data_dir, model_instance, device, train_data, val_data=Non
             data, labels = data.to(device), labels.to(device, dtype=torch.double)
 
             optimizer.zero_grad()        
+            data = data.permute(0, 2, 1) 
+            # data = data.unsqueeze(1)
             y_hat = model(data)
             
             loss = loss_func(y_hat.float(), labels)
@@ -145,8 +148,8 @@ def main():
     # model_name = 'transformer'
     # model_instance = EcgTransformer(num_classes=len(train_data.CLASSES))
 
-    model_name = 'ECGCombinedModel'
-    model_instance = ECGCombinedModel(num_classes=len(train_data.CLASSES)).to(device)
+    model_name = 'DenseNet'
+    model_instance = DenseNet(layer_num=(6,12,24,16),growth_rate=32,in_channels=12,classes=7).to(device)
 
     train(model_name, data_dir, model_instance, device, train_data, val_data)
 

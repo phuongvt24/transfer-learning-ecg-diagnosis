@@ -17,6 +17,7 @@ def classify(model, device, dataset,epoch, batch_size=128):
     with torch.no_grad():
         for batch_idx, (X, y) in enumerate(data_loader):
             X, y = X.to(device), y.to(device)
+            X = X.permute(0, 2, 1)
             y_hat = model(X)
 
             y_pred = torch.sigmoid(y_hat).cpu().numpy().round()
