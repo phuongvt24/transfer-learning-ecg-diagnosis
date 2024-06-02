@@ -15,12 +15,14 @@ from gru import GRU_Classifier
 from eval import classify, get_f1
 from ECGCombinedModel import ECGCombinedModel
 from DenseNet import DenseNet
+from AlexNet import AlexNet 
+from CDIL import CDILClassifier
 
 
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
 
-    batch_size = 256
+    batch_size = 128
 
     model = model_instance.to(device=device, dtype=torch.double)
     print(model)
@@ -148,8 +150,14 @@ def main():
     # model_name = 'transformer'
     # model_instance = EcgTransformer(num_classes=len(train_data.CLASSES))
 
-    model_name = 'DenseNet'
-    model_instance = DenseNet(layer_num=(6,12,24,16),growth_rate=32,in_channels=12,classes=7).to(device)
+    # model_name = 'DenseNet'
+    # model_instance = DenseNet(layer_num=(6,12,24,16),growth_rate=32,in_channels=12,classes=7).to(device)
+
+    # model_name = 'DenseNet'
+    # model_instance = AlexNet(in_channels=12, input_sample_points=4096, classes=7).to(device)
+
+    model_name = 'CDILClassifier'
+    model_instance = CDILClassifier(num_classes=7).to(device)
 
     train(model_name, data_dir, model_instance, device, train_data, val_data)
 
