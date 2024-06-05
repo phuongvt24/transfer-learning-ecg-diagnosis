@@ -17,7 +17,7 @@ from ECGCombinedModel import ECGCombinedModel
 from DenseNet import DenseNet
 from AlexNet import AlexNet 
 from CDIL import CDILClassifier
-
+from eff import EfficientNetB0
 
 def train(model_name, data_dir, model_instance, device, train_data, val_data=None):
     print("device:", device)
@@ -156,8 +156,11 @@ def main():
     # model_name = 'DenseNet'
     # model_instance = AlexNet(in_channels=12, input_sample_points=4096, classes=7).to(device)
 
-    model_name = 'CDILClassifier'
-    model_instance = CDILClassifier(num_classes=7).to(device)
+    # model_name = 'CDILClassifier'
+    # model_instance = CDILClassifier(num_classes=7).to(device)
+
+    model_name = 'EfficientNetB0'
+    model_instance = EfficientNetB0(in_channels=12,classes=7).to(device)
 
     train(model_name, data_dir, model_instance, device, train_data, val_data)
 
