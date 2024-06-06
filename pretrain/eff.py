@@ -61,7 +61,7 @@ class MBConvBlock(torch.nn.Module):
 
 
 class EfficientNetB0(torch.nn.Module):
-    def __init__(self, in_channels=3,classes=1000):
+    def __init__(self, in_channels=12,classes=7):
         super(EfficientNetB0, self).__init__()
 
         # Initial stem convolution
